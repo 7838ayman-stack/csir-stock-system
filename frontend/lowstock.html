@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Low Stock Items</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="header">
+    <h1>⚠ Low Stock Items</h1>
+    <button onclick="goBack()">⬅ Back</button>
+</div>
+
+<div class="table-card">
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Stock</th>
+                <th>Unit</th>
+            </tr>
+        </thead>
+
+        <tbody id="lowStockTable"></tbody>
+    </table>
+
+</div>
+
+<script src="app.js"></script>
+
+<script>
+    function goBack() {
+        window.location.href = "dashboard.html";
+    }
+</script>
+
+<script>
+    loadLowStockPage();
+</script>
+
+</body>
+</html>

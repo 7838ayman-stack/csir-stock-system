@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<!-- HEADER -->
+<div class="header">
+
+    <div class="header-left">
+
+        <img src="images/csir-logo.png" alt="CSIR Logo" class="logo">
+
+        <div>
+            <h1>CSIR Canteen Dashboard</h1>
+            <p id="welcome"></p>
+        </div>
+
+    </div>
+
+    <button onclick="logout()">Logout</button>
+
+</div>
+
+<!-- CARDS -->
+<div class="cards">
+
+    <div class="card" onclick="openItemsPage()">
+        <h3>📦 Total Items</h3>
+        <p id="totalItems">0</p>
+    </div>
+
+    <!-- LOW STOCK CARD (CLICKABLE BUTTON STYLE) -->
+    <div class="card" onclick="openLowStockPage()" id="lowStockCard">
+        <h3>⚠️ Low Stock Items</h3>
+        <p id="lowStock">0</p>
+    </div>
+
+    <div class="card" onclick="openHistory()">
+        <h3>📜 Stock History</h3>
+        <p>🗎</p>
+    </div>
+
+</div>
+
+<!-- ADD ITEM -->
+<div class="form-card">
+
+    <h2>➕ Add New Item</h2>
+
+    <input type="text" id="itemName" placeholder="Item Name">
+    <input type="number" id="itemStock" placeholder="Stock Quantity">
+    <input type="text" id="itemUnit" placeholder="Unit">
+
+    <button onclick="addItem()">Add Item</button>
+
+    <p id="addMsg"></p>
+
+</div>
+
+
+
+
+<!-- FOOTER -->
+<footer class="footer">
+    CSIR Canteen Stock Management System
+</footer>
+
+<script src="app.js"></script>
+
+</body>
+</html>

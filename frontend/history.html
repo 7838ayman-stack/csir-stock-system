@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Stock History</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="history-header">
+
+    <h2>📜 Stock History</h2>
+
+    <div class="filter-row">
+
+    <label for="fromDate">From:</label>
+    <input type="date" id="fromDate">
+
+    <label for="toDate">To:</label>
+    <input type="date" id="toDate">
+
+    <button onclick="filterHistory()">Filter</button>
+    <button onclick="loadHistory()">Show All</button>
+
+</div>
+
+</div>
+
+<div class="refresh-container">
+    <button onclick="loadHistory()">Refresh</button>
+</div>
+
+<div class="table-card">
+
+<table>
+    <thead>
+        <tr>
+            <th>Item</th>
+            <th>Change</th>
+            <th>Final Stock</th>
+            <th>Action</th>
+            <th>Date</th>
+        </tr>
+    </thead>
+
+    <tbody id="historyTable">
+    </tbody>
+</table>
+
+</div>
+
+<script src="app.js"></script>
+
+<script>
+    loadHistory();
+</script>
+
+</body>
+</html>

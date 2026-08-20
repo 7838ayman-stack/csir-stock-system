@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>All Items</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<!-- HEADER -->
+<div class="header">
+    <h1>📦 All Items</h1>
+    <button onclick="goBack()">⬅ Back to Dashboard</button>
+</div>
+
+<div class="search-card">
+    <h2>Search Items</h2>
+
+    <div class="search-bar">
+        <input type="text" id="itemSearch" placeholder="Search item..." oninput="searchItems()">
+        <button onclick="searchItems()">Search</button>
+        <button onclick="resetItems()">Show All</button>
+    </div>
+</div>
+
+<!-- TABLE -->
+<div class="table-card">
+
+    <h2>Inventory Items</h2>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Stock</th>
+                <th>Unit</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+
+        <tbody id="itemsTable">
+            <!-- Data will come here -->
+        </tbody>
+    </table>
+
+</div>
+
+<script src="app.js"></script>
+
+<script>
+    function goBack() {
+        window.location.href = "dashboard.html";
+    }
+</script>
+
+<script>
+    loadItemsPage();
+</script>
+
+<div id="actionMenu" class="action-menu hidden">
+
+    <button onclick="increaseStock()">➕ Increase Stock</button>
+
+    <button onclick="decreaseStock()">➖ Decrease Stock</button>
+
+    <button onclick="deleteItem(selectedItemId)">🗑 Delete Item</button>
+
+</div>
+
+
+
+</body>
+</html>
