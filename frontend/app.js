@@ -1,6 +1,6 @@
 let selectedItemId = null;
 
-const API_URL = "https://csir-canteen-backend.onrender.com";
+const API_URL = "http://localhost:3000";
 
 // ---------------- LOGIN ----------------
 function login() {

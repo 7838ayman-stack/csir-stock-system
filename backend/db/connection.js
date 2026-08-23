@@ -1,7 +1,5 @@
 const mysql = require("mysql2");
-const fs = require("fs");
-const path = require("path");
-require("dotenv").config();
+require("dotenv").config({ override: true }); // THIS CLEARS THE CACHE!
 
 const connection = mysql.createConnection({
     host: process.env.DB_HOST,
@@ -9,9 +7,8 @@ const connection = mysql.createConnection({
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
-
     ssl: {
-        ca: fs.readFileSync(path.join(__dirname, "ca.pem")),
+        minVersion: 'TLSv1.2',
         rejectUnauthorized: true
     }
 });
@@ -22,8 +19,7 @@ connection.connect((err) => {
         console.log(err);
         return;
     }
-
-    console.log("MySQL Connected Successfully");
+    console.log("MySQL Connected Successfully to TiDB Cloud!");
 });
 
 module.exports = connection;
