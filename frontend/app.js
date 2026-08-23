@@ -1,6 +1,6 @@
 let selectedItemId = null;
 
-const API_URL = "http://localhost:3000";
+const API_URL = "https://csir-stock-backend.onrender.com";
 
 // ---------------- LOGIN ----------------
 function login() {
@@ -33,10 +33,22 @@ function login() {
 }
 
 
-// ---------------- AUTO LOAD DASHBOARD ----------------
-if (window.location.pathname.includes("dashboard.html")) {
-    loadDashboard();
+// ---------------- AUTH GUARD & AUTO LOAD ----------------
+if (!window.location.pathname.endsWith("index.html") && !window.location.pathname.endsWith("/")) {
+    const admin = localStorage.getItem("admin");
+    if (!admin) {
+        window.location.href = "index.html";
+    } else if (window.location.pathname.includes("dashboard.html")) {
+        loadDashboard();
+    }
 }
+
+// Fix for browser back button cache
+window.addEventListener("pageshow", function(event) {
+    if (window.location.pathname.includes("dashboard.html")) {
+        loadDashboard();
+    }
+});
 
 
 // ---------------- DASHBOARD ----------------
@@ -789,4 +801,56 @@ function resetItems() {
     }
 
     loadItemsPage();
+}
+
+// ---------------- FILTER HISTORY ----------------
+function filterHistory() {
+    const startDate = document.getElementById("fromDate").value;
+    const endDate = document.getElementById("toDate").value;
+
+    if (!startDate || !endDate) {
+        alert("Please select both From and To dates.");
+        return;
+    }
+
+    fetch(`${API_URL}/api/history?startDate=${startDate}&endDate=${endDate}`)
+        .then(res => res.json())
+        .then(data => {
+            let html = "";
+
+            if (data.length === 0) {
+                html = `<tr><td colspan="5">No history found for this date range.</td></tr>`;
+            } else {
+                data.forEach(item => {
+                    const formattedDate = new Date(item.created_at)
+                        .toLocaleString("en-IN", {
+                            timeZone: "Asia/Kolkata",
+                            day: "2-digit",
+                            month: "short",
+                            year: "numeric",
+                            hour: "2-digit",
+                            minute: "2-digit",
+                            hour12: true
+                        });
+
+                    html += `
+                        <tr>
+                            <td>${item.item_name}</td>
+                            <td>${item.change_quantity}</td>
+                            <td>${item.final_stock}</td>
+                            <td>${item.action_type}</td>
+                            <td>${formattedDate}</td>
+                        </tr>
+                    `;
+                });
+            }
+
+            const table = document.getElementById("historyTable");
+            if (table) {
+                table.innerHTML = html;
+            }
+        })
+        .catch(err => {
+            console.log("Filter error:", err);
+        });
 }

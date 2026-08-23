@@ -151,7 +151,7 @@ app.delete("/api/items/:id", (req, res) => {
 app.get("/api/items/low-stock", (req, res) => {
 
     const query =
-        "SELECT * FROM items WHERE stock_quantity < 10";
+        "SELECT * FROM items WHERE stock_quantity < 5";
 
     connection.query(
         query,
@@ -271,17 +271,32 @@ app.listen(PORT, () => {
 
 
 app.get("/api/history", (req, res) => {
+    const { action_type, item_name, startDate, endDate } = req.query;
+    
+    let query = "SELECT * FROM stock_history WHERE 1=1";
+    let params = [];
 
-    connection.query(
-        "SELECT * FROM stock_history ORDER BY created_at DESC",
-        (err, results) => {
+    if (action_type) {
+        query += " AND action_type = ?";
+        params.push(action_type);
+    }
 
-            if (err) {
-                return res.status(500).json({ error: err.message });
-            }
+    if (item_name) {
+        query += " AND item_name LIKE ?";
+        params.push(`%${item_name}%`);
+    }
 
-            res.json(results);
+    if (startDate && endDate) {
+        query += " AND DATE(created_at) BETWEEN ? AND ?";
+        params.push(startDate, endDate);
+    }
+
+    query += " ORDER BY created_at DESC";
+
+    connection.query(query, params, (err, results) => {
+        if (err) {
+            return res.status(500).json({ error: err.message });
         }
-    );
-
+        res.json(results);
+    });
 });
