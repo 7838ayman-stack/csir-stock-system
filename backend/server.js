@@ -300,3 +300,22 @@ app.get("/api/history", (req, res) => {
         res.json(results);
     });
 });
+
+// ---------------- DELETE HISTORY ITEM ----------------
+app.delete("/api/history/:id", (req, res) => {
+    const id = req.params.id;
+
+    const query = "DELETE FROM stock_history WHERE id = ?";
+
+    connection.query(query, [id], (err, result) => {
+        if (err) {
+            return res.status(500).json({
+                error: err.message
+            });
+        }
+
+        res.json({
+            message: "History record deleted successfully"
+        });
+    });
+});
