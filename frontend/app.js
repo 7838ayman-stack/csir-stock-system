@@ -765,6 +765,12 @@ function loadHistory() {
                         <td>${item.final_stock}</td>
                         <td>${item.action_type}</td>
                         <td>${formattedDate}</td>
+                        <td style="position:relative;">
+                            <button class="menu-btn" onclick="openHistoryMenu(event, ${item.id})">⋮</button>
+                            <div id="history-menu-${item.id}" class="dropdown-menu hidden">
+                                <button onclick="deleteHistory(${item.id})">🗑 Delete</button>
+                            </div>
+                        </td>
                     </tr>
                 `;
             });
@@ -840,6 +846,12 @@ function filterHistory() {
                             <td>${item.final_stock}</td>
                             <td>${item.action_type}</td>
                             <td>${formattedDate}</td>
+                            <td style="position:relative;">
+                                <button class="menu-btn" onclick="openHistoryMenu(event, ${item.id})">⋮</button>
+                                <div id="history-menu-${item.id}" class="dropdown-menu hidden">
+                                    <button onclick="deleteHistory(${item.id})">🗑 Delete</button>
+                                </div>
+                            </td>
                         </tr>
                     `;
                 });
@@ -853,4 +865,39 @@ function filterHistory() {
         .catch(err => {
             console.log("Filter error:", err);
         });
+}
+
+// ---------------- OPEN HISTORY MENU ----------------
+function openHistoryMenu(event, id) {
+    event.stopPropagation();
+
+    // Pehle baaki saare open menus close kar do
+    document.querySelectorAll(".dropdown-menu").forEach(m => {
+        m.classList.add("hidden");
+    });
+
+    const menu = document.getElementById(`history-menu-${id}`);
+    if (menu) {
+        menu.classList.remove("hidden");
+    }
+}
+
+// ---------------- DELETE HISTORY ----------------
+function deleteHistory(id) {
+    if (!confirm("Are you sure you want to delete this history record?")) {
+        return;
+    }
+
+    fetch(`${API_URL}/api/history/${id}`, {
+        method: "DELETE"
+    })
+    .then(res => res.json())
+    .then(data => {
+        alert(data.message);
+        loadHistory();
+    })
+    .catch(err => {
+        console.log("Delete error:", err);
+        alert("Error deleting record");
+    });
 }
